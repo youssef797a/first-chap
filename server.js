@@ -1,18 +1,20 @@
 const express = require("express")
 const connectDB = require("./config/connectDB")
 require("dotenv").config({path: "./config/.env"})
-const index = require("./routes/index")
+const taskRouter = require("./routes/taskRouter")
+const authRouter = require("./routes/authRoutes")
 
 const app = express()
 connectDB()
 
-
+app.use(express.json())
 //routes
-app.use("/api/tasks", index)
+app.use("/api/tasks", taskRouter)
+app.use("/api/auth", authRouter)
+
 
 const PORT = process.env.PORT
 
-app.listen(PORT,err => {
-    err ? console.log(err)
-        : console.log("server is runnig on port " + PORT);
-})
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
